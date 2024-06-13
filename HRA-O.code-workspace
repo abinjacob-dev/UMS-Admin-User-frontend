@@ -1,0 +1,43 @@
+{
+	"folders": [
+		{
+			"path": "../HRA-O"
+		},
+		{
+			"path": "../Admin-Dashboard"
+		},
+		{
+			"path": "../HRA"
+		},
+		{
+			"path": "../express --ejs"
+		},
+		{
+			"path": "../CRUD_Application_Node"
+		},
+		{
+			"path": "../../Downloads/ec"
+		},
+		{
+			"path": "../MERN"
+		},
+		{
+			"path": "../123"
+		},
+		{
+			"path": "../MERN-HRM-Project-master"
+		},
+		{
+			"path": "../personal_frontend"
+		},
+		{
+			"path": "../../Downloads/next-blog-completed/next-blog-completed"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "personal_frontend"
+	}
+}
