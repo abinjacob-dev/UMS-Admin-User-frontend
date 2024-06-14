@@ -24,5 +24,6 @@ const userController = require("../controllers/userController");
 
 user_route.get("/register", userController.loadRegister);
 user_route.post("/register",upload.single('image'), userController.insertUser);
+user_route.get("/verify",userController.verifyMail)
 
 module.exports = user_route;
