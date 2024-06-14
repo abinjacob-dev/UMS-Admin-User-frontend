@@ -1,6 +1,7 @@
 const User = require("../models/userModels");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
+const userModels = require("../models/userModels");
 const dotenv = require("dotenv").config();
 
 const securePassword = async (password) => {
@@ -12,11 +13,10 @@ const securePassword = async (password) => {
   }
 };
 
-
-SMTP_HOST="smtp.gmail.com"
-SMTP_PORT="587"
-SMTP_EMAIL="shinytm36@gmail.com"
-SMTP_PASS="fikyljkceicjdhig"
+SMTP_HOST = "smtp.gmail.com";
+SMTP_PORT = "587";
+SMTP_EMAIL = "shinytm36@gmail.com";
+SMTP_PASS = "fikyljkceicjdhig";
 
 // for send mail
 console.log(process.env.SMTP_EMAIL);
@@ -103,8 +103,56 @@ const verifyMail = async (req, res) => {
   }
 };
 
+// Login user method Started
+
+const loginLoad = async (req, res) => {
+  try {
+    res.render("login");
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const verifyLogin = async (req, res) => {
+  try {
+    const email = req.body.email;
+    const password = req.body.password;
+    const userData = await User.findOne({ email: email });
+    if (userData) {
+      const passwordMatch = await bcrypt.compare(password, userData.password);
+      if (passwordMatch) {
+        if (userData.is_verified === 0) {
+          res.render("login", { message: "Please verify your mail" });
+        } else {
+          req.sesson.user_id = userData._id;
+          res.redirect("/home");
+        }
+      } else {
+        res.render("login", { message: "Email and Password is incorrect" });
+      }
+    } else {
+      res.render("login", {
+        message: "Email and Password is incorrect or User does not exists !",
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const loadHome = async (req, res) => {
+  try {
+    res.render("home");
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 module.exports = {
   loadRegister,
   insertUser,
   verifyMail,
+  loginLoad,
+  verifyLogin,
+  loadHome,
 };
