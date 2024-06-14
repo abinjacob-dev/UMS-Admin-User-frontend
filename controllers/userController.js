@@ -124,7 +124,7 @@ const verifyLogin = async (req, res) => {
         if (userData.is_verified === 0) {
           res.render("login", { message: "Please verify your mail" });
         } else {
-          req.sesson.user_id = userData._id;
+          req.session.user_id = userData._id;
           res.redirect("/home");
         }
       } else {
