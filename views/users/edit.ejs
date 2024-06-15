@@ -1,0 +1,41 @@
+<% include("../layouts/header.ejs") %>
+
+<h1>Edit Profile</h1>
+
+<img src="userImages/<%= user.image %>" width="25%" height="25%" alt="" />
+<form action="" method="post" enctype="multipart/form-data">
+  <input type="file" name="image" hidden/>
+  <input type="text" name="user_id" value="<%=user._id%>" hidden />
+  <input
+    type="text"
+    name="name"
+    value="<%=user.name%>"
+    placeholder="Enter your name"
+    required
+  />
+  <br /><br />
+  <input
+    type="email"
+    name="email"
+    value="<%=user.email%>"
+    placeholder="Enter you email"
+    required
+  />
+  <br /><br />
+  <input
+    type="text"
+    name="mno"
+    value="<%=user.mobile%>"
+    placeholder="Enter Mobile"
+    required
+  />
+  <br /><br />
+
+  <input type="Submit" value="Update Profile" />
+  <a href="/home">Home</a>
+  <br /><br />
+</form>
+
+<% if (typeof message !== "undefined") { %>
+<p style="color: green"><%= message %></p>
+<% } else { %> <% } %> <% include("../layouts/footer.ejs") %>

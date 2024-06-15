@@ -45,5 +45,7 @@ user_route.get(
 user_route.post("/forget-password", userController.resetPassword);
 user_route.get("/verification", userController.verificationLoad);
 user_route.post("/verification", userController.sendVerificationLink);
+user_route.get("/edit",auth.isLogin,userController.editLoad)
+user_route.post("/edit",upload.single('image'),userController.updateProfile)
 
 module.exports = user_route;
