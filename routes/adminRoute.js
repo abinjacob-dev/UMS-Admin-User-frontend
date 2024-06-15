@@ -20,7 +20,7 @@ admin_route.get("/forget",auth.isLogout, adminContoller.forgetLoad);
 admin_route.post("/forget", adminContoller.forgetVerify);
 admin_route.get("/forget-password",auth.isLogout, adminContoller.forgetPasswordLoad);
 admin_route.post("/forget-password",adminContoller.resetPassword );
-
+admin_route.get("/dashboard",auth.isLogin,adminContoller.adminDashboard)
 
 
 
