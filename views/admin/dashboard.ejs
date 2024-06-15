@@ -10,6 +10,7 @@
         <th>Mobile</th>
         <th>Image</th>
         <th>Verified</th>
+        <th>Action</th>
       </tr>
 
       <%if(users.length>0){%> 
@@ -35,6 +36,10 @@
                   <p>Verified</p>
                   <%}%>
                 </td>
+<td>
+  <a href="/admin/edit-user?id=<%=users[i]._id%>">Edit</a>
+</td>
+
             </tr>
 
 
