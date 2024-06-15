@@ -1,8 +1,11 @@
 const User = require("../models/userModels");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
+const randomString = require("randomstring");
 const userModels = require("../models/userModels");
 const dotenv = require("dotenv").config();
+const config = require("../config/config");
+const { link } = require("../routes/userRoute");
 
 const securePassword = async (password) => {
   try {
@@ -12,11 +15,6 @@ const securePassword = async (password) => {
     console.log(error.message);
   }
 };
-
-SMTP_HOST = "smtp.gmail.com";
-SMTP_PORT = "587";
-SMTP_EMAIL = "shinytm36@gmail.com";
-SMTP_PASS = "fikyljkceicjdhig";
 
 // for send mail
 console.log(process.env.SMTP_EMAIL);
@@ -28,12 +26,12 @@ const sendVerifyMail = async (name, email, user_id) => {
       secure: false,
       requireTLS: true,
       auth: {
-        user: process.env.SMTP_EMAIL,
-        pass: SMTP_PASS,
+        user: config.emailUser,
+        pass: config.emailpassword,
       },
     });
     const mailOptions = {
-      from: process.env.SMTP_EMAIL,
+      from: config.emailUser,
       to: email,
       subject: "Verification mail",
       html:
@@ -42,6 +40,43 @@ const sendVerifyMail = async (name, email, user_id) => {
         ', Please click here to <a href="http://localhost:3000/verify?id=' +
         user_id +
         '"> verify </a> your mail.</p>',
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email has seen send:-", info.response);
+      }
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+// for reset password sendmail
+
+const sendResetPasswordMail = async (name, email, token) => {
+  try {
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      secure: false,
+      requireTLS: true,
+      auth: {
+        user: config.emailUser,
+        pass: config.emailpassword,
+      },
+    });
+    const mailOptions = {
+      from: config.emailUser,
+      to: email,
+      subject: "For Reset Password",
+      html:
+        "<p>Hi " +
+        name +
+        ', Please click here to <a href="http://localhost:3000/forget-password?token=' +
+        token +
+        '"> Reset </a> your Password.</p>',
     };
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
@@ -148,6 +183,82 @@ const loadHome = async (req, res) => {
   }
 };
 
+const userLogout = async (req, res) => {
+  try {
+    req.session.destroy();
+    res.redirect("/");
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+// forget password code start
+const forgetLoad = async (req, res) => {
+  try {
+    res.render("forget");
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const forgetVerify = async (req, res) => {
+  try {
+    const email = req.body.email;
+    const userData = await User.findOne({ email: email });
+    if (userData) {
+      if (userData.is_verified === 0) {
+        res.render("forget", { message: "Please verify your mail." });
+      } else {
+        const randomstring = randomString.generate();
+        const updatedData = await User.updateOne(
+          { email: email },
+          { $set: { token: randomstring } }
+        );
+        sendResetPasswordMail(userData.name, userData.email, randomstring);
+        res.render("forget", {
+          message: "Please Check your mail to reset your password",
+        });
+      }
+    } else {
+      res.render("forget", {
+        message:
+          "Mail is incorrect or User not registered or please check your mail you have not verifed ",
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const forgetPasswordLoad = async (req, res) => {
+  try {
+    const linktoken = req.query.token;
+    const tokenData = await User.findOne({ token: linktoken });
+    if (tokenData) {
+      res.render("forget-password", { user_id: tokenData._id });
+    } else {
+      res.render("404", { message: "Token is Invalid." });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    const changepassword = req.body.password;
+    const user_id = req.body.user_id;
+    const secure_password = await securePassword(changepassword);
+    const updatedData = await User.findByIdAndUpdate(
+      { _id: user_id },
+      { $set: { password: secure_password, token: "" } }
+    );
+    res.redirect("/");
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 module.exports = {
   loadRegister,
   insertUser,
@@ -155,4 +266,9 @@ module.exports = {
   loginLoad,
   verifyLogin,
   loadHome,
+  userLogout,
+  forgetLoad,
+  forgetVerify,
+  forgetPasswordLoad,
+  resetPassword,
 };
