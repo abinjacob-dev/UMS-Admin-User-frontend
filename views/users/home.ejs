@@ -1,6 +1,37 @@
 <% include("../layouts/header.ejs") %>
 
-<h1>Welcome on Home</h1>
+<h3>Welcome, <%=user.name%></h3>
+
+<table width="50%">
+  <tr>
+    <td>
+      <img
+        src="userImages/pf.webp"
+        width="25%"
+        height="25%"
+        alt="<%=user.image%>"
+      />
+    </td>
+    <!-- <td><img src="userImages/<%=user.image%>" alt="<%=user.image%>" /></td> -->
+  </tr>
+  <tr>
+    <td>Email</td>
+    <td><%=user.email%></td>
+  </tr>
+  <tr>
+    <td>Mobile</td>
+    <td><%=user.mobile%></td>
+  </tr>
+  <tr>
+    <td>Verified</td>
+    <td>
+      <%if(user.is_verified == 1){%>
+      <p>True</p>
+      <%}%>
+    </td>
+  </tr>
+</table>
+
 <a href="/logout">Logout</a>
 
 <% include("../layouts/footer.ejs") %>
