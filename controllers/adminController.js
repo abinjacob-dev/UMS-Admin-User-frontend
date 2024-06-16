@@ -5,6 +5,12 @@ const config = require("../config/config");
 const nodemailer = require("nodemailer");
 const excelJS = require("exceljs");
 
+// html to pdf require things
+const ejs = require("ejs");
+const pdf = require("html-pdf");
+const fs = require("fs");
+const path = require("path");
+
 const securePassword = async (password) => {
   try {
     const passwordHash = await bcrypt.hash(password, 10);
@@ -343,6 +349,48 @@ const exportUsers = async (req, res) => {
   }
 };
 
+// Export user data into PDF
+const exportUserPdf = async (req, res) => {
+  try {
+    const users = await User.find({ is_admin: 0 });
+    const data = {
+      users: users,
+    };
+    const filePathName = path.resolve(
+      __dirname,
+      "../views/admin/htmltopdf.ejs"
+    );
+    const htmlString = fs.readFileSync(filePathName).toString();
+    let options = {
+      format : "A3",
+      orientation:"portrait",
+      border:"10mm"
+      // format: "Letter",
+    };
+    const ejsData = ejs.render(htmlString, data);
+    pdf.create(ejsData, options).toFile("users.pdf", (err, response) => {
+      if (err) console.log(err);
+
+      console.log("file generated");
+      const filePath = path.resolve(__dirname, "../users.pdf");
+      fs.readFile(filePath, (err, file) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).send("Could not Download file");
+        }
+        res.setHeader("Content-Type", "application/pdf");
+        res.setHeader(
+          "Content-Disposition",
+          'attachment;filename= "users.pdf"'
+        );
+        res.send(file);
+      });
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 module.exports = {
   loadLogin,
   verifyLogin,
@@ -359,4 +407,5 @@ module.exports = {
   updateUser,
   deleteUser,
   exportUsers,
+  exportUserPdf,
 };

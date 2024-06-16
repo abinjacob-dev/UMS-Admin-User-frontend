@@ -1,18 +1,15 @@
-<% include("../layouts/header.ejs") %>
 
-<h1>Dashboard</h1>
-<a href="/admin/new-user">Add New User</a>
-<a href="/admin/export-users">Export Users(xlsx)</a>
-<a href="/admin/export-users-pdf">Export Users(PDF)</a>
+<h1>Users List</h1>
+
 <br><br>
-<table style="width: 50%;">
+<table style="width: 100%;">
     <tr>
         <th>Name</th>
         <th>Email</th>
         <th>Mobile</th>
         <th>Image</th>
         <th>Verified</th>
-        <th>Action</th>
+        
       </tr>
 
       <%if(users.length>0){%> 
@@ -25,7 +22,7 @@
                 <td><%=users[i].mobile%></td>
                 <td>
                   <img
-                    src="/userImages/<%=users[i].image%>"
+                    src="http://localhost:3000/userImages/<%=users[i].image%>"
                     alt=""
                     width="100px"
                     height="100px"
@@ -39,8 +36,7 @@
                   <%}%>
                 </td>
 <td>
-  <a href="/admin/edit-user?id=<%=users[i]._id%>">Edit</a>
-  <a href="/admin/delete-user?id=<%=users[i]._id%>">Delete</a>
+  
 </td>
 
             </tr>
@@ -55,5 +51,4 @@
         <%}%>
 
 </table>
-<a href="/admin/home">Go to Home</a>
-<% include("../layouts/footer.ejs") %>
+

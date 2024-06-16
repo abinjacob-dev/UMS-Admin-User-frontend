@@ -17,6 +17,7 @@
     "exceljs": "^4.4.0",
     "express": "^4.17.3",
     "express-session": "^1.18.0",
+    "html-pdf": "^3.0.1",
     "mongodb": "^4.4.0",
     "mongoose": "^6.2.4",
     "multer": "^1.4.4",
