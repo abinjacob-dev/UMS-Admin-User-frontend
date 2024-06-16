@@ -92,7 +92,7 @@ const sendResetPasswordMail = async (name, email, token) => {
 
 const loadRegister = async (req, res) => {
   try {
-    res.render("registration");
+    return res.render("registration");
   } catch (error) {
     console.log(error.message);
   }
@@ -113,11 +113,11 @@ const insertUser = async (req, res) => {
     if (userData) {
       sendVerifyMail(req.body.name, req.body.email, userData._id);
 
-      res.render("registration", {
+      return res.render("registration", {
         message: "Registration Successful, Please verify your mail",
       });
     } else {
-      res.render("registration", { message: "Registration Failed" });
+      return res.render("registration", { message: "Registration Failed" });
     }
   } catch (error) {
     console.log(error.message);
@@ -132,7 +132,7 @@ const verifyMail = async (req, res) => {
     );
     console.log(updateInfo);
     // viewa/layout ->email-verified.ejs file
-    res.render("email-verified");
+    return res.render("email-verified");
   } catch (error) {
     console.log(error.message);
   }
@@ -142,7 +142,7 @@ const verifyMail = async (req, res) => {
 
 const loginLoad = async (req, res) => {
   try {
-    res.render("login");
+    return res.render("login");
   } catch (error) {
     console.log(error.message);
   }
@@ -157,16 +157,18 @@ const verifyLogin = async (req, res) => {
       const passwordMatch = await bcrypt.compare(password, userData.password);
       if (passwordMatch) {
         if (userData.is_verified === 0) {
-          res.render("login", { message: "Please verify your mail" });
+          return res.render("login", { message: "Please verify your mail" });
         } else {
           req.session.user_id = userData._id;
-          res.redirect("/home");
+          return res.redirect("/home");
         }
       } else {
-        res.render("login", { message: "Email and Password is incorrect" });
+        return res.render("login", {
+          message: "Email and Password is incorrect",
+        });
       }
     } else {
-      res.render("login", {
+      return res.render("login", {
         message: "Email and Password is incorrect or User does not exists !",
       });
     }
@@ -178,7 +180,7 @@ const verifyLogin = async (req, res) => {
 const loadHome = async (req, res) => {
   try {
     const userData = await User.findById({ _id: req.session.user_id });
-    res.render("home", { user: userData });
+    return res.render("home", { user: userData });
   } catch (error) {
     console.log(error.message);
   }
@@ -187,7 +189,7 @@ const loadHome = async (req, res) => {
 const userLogout = async (req, res) => {
   try {
     req.session.destroy();
-    res.redirect("/");
+    return res.redirect("/");
   } catch (error) {
     console.log(error.message);
   }
@@ -196,7 +198,7 @@ const userLogout = async (req, res) => {
 // forget password code start
 const forgetLoad = async (req, res) => {
   try {
-    res.render("forget");
+    return res.render("forget");
   } catch (error) {
     console.log(error.message);
   }
@@ -208,7 +210,7 @@ const forgetVerify = async (req, res) => {
     const userData = await User.findOne({ email: email });
     if (userData) {
       if (userData.is_verified === 0) {
-        res.render("forget", { message: "Please verify your mail." });
+        return res.render("forget", { message: "Please verify your mail." });
       } else {
         const randomstring = randomString.generate();
         const updatedData = await User.updateOne(
@@ -216,12 +218,12 @@ const forgetVerify = async (req, res) => {
           { $set: { token: randomstring } }
         );
         sendResetPasswordMail(userData.name, userData.email, randomstring);
-        res.render("forget", {
+        return res.render("forget", {
           message: "Please Check your mail to reset your password",
         });
       }
     } else {
-      res.render("forget", {
+      return res.render("forget", {
         message:
           "Mail is incorrect or User not registered or please check your mail you have not verifed ",
       });
@@ -236,9 +238,9 @@ const forgetPasswordLoad = async (req, res) => {
     const linktoken = req.query.token;
     const tokenData = await User.findOne({ token: linktoken });
     if (tokenData) {
-      res.render("forget-password", { user_id: tokenData._id });
+      return res.render("forget-password", { user_id: tokenData._id });
     } else {
-      res.render("404", { message: "Token is Invalid." });
+      return res.render("404", { message: "Token is Invalid." });
     }
   } catch (error) {
     console.log(error.message);
@@ -254,7 +256,7 @@ const resetPassword = async (req, res) => {
       { _id: user_id },
       { $set: { password: secure_password, token: "" } }
     );
-    res.redirect("/");
+    return res.redirect("/");
   } catch (error) {
     console.log(error.message);
   }
@@ -263,7 +265,7 @@ const resetPassword = async (req, res) => {
 // for verification link
 const verificationLoad = async (req, res) => {
   try {
-    res.render("verification");
+    return res.render("verification");
   } catch (error) {
     console.log(error.message);
   }
@@ -275,12 +277,14 @@ const sendVerificationLink = async (req, res) => {
     const userData = await User.findOne({ email: email });
     if (userData) {
       sendVerifyMail(userData.name, userData.email, userData._id);
-      res.render("verification", {
+      return res.render("verification", {
         message:
           "Resend verification mail has been send to your mail , Please check the mail ",
       });
     } else {
-      res.render("verification", { messsage: "This email doesnot exists " });
+      return res.render("verification", {
+        messsage: "This email doesnot exists ",
+      });
     }
   } catch (error) {
     console.log(error.message);
@@ -293,9 +297,9 @@ const editLoad = async (req, res) => {
     const id = req.query.id;
     const userData = await User.findById({ _id: id });
     if (userData) {
-      res.render("edit", { user: userData });
+      return res.render("edit", { user: userData });
     } else {
-      res.redirect("/home");
+      return res.redirect("/home");
     }
   } catch (error) {
     console.log(error.message);
@@ -328,7 +332,7 @@ const updateProfile = async (req, res) => {
         }
       );
     }
-    res.redirect("/home");
+    return res.redirect("/home");
   } catch (error) {
     console.log(error.message);
   }

@@ -99,7 +99,7 @@ const addUserMail = async (name, email, password, user_id) => {
 
 const loadLogin = async (req, res) => {
   try {
-    res.render("login");
+    return res.render("login");
   } catch (error) {
     console.log(error.message);
   }
@@ -115,16 +115,22 @@ const verifyLogin = async (req, res) => {
 
       if (passwordHash) {
         if (userData.is_admin === 0) {
-          res.render("login", { message: "Email and password is incorrect" });
+          return res.render("login", {
+            message: "Email and password is incorrect",
+          });
         } else {
           req.session.user_id = userData._id;
-          res.redirect("/admin/home");
+          return res.redirect("/admin/home");
         }
       } else {
-        res.render("login", { message: "Email and password is incorrect" });
+        return res.render("login", {
+          message: "Email and password is incorrect",
+        });
       }
     } else {
-      res.render("login", { message: "Email and password is incorrect" });
+      return res.render("login", {
+        message: "Email and password is incorrect",
+      });
     }
   } catch (error) {
     console.log(error.message);
@@ -134,7 +140,7 @@ const verifyLogin = async (req, res) => {
 const loadDashboard = async (req, res) => {
   try {
     const userData = await User.findById({ _id: req.session.user_id });
-    res.render("home", { admin: userData });
+    return res.render("home", { admin: userData });
   } catch (error) {
     console.log(error.message);
   }
@@ -142,14 +148,14 @@ const loadDashboard = async (req, res) => {
 const logout = async (req, res) => {
   try {
     req.session.destroy();
-    res.redirect("/admin");
+    return res.redirect("/admin");
   } catch (error) {
     console.log(error.message);
   }
 };
 const forgetLoad = async (req, res) => {
   try {
-    res.render("forget");
+    return res.render("forget");
   } catch (error) {
     console.log(error.message);
   }
@@ -161,7 +167,7 @@ const forgetVerify = async (req, res) => {
     const userData = await User.findOne({ email: email });
     if (userData) {
       if (userData.is_admin === 0) {
-        res.render("forget", {
+        return res.render("forget", {
           message: "User not found or Email is incorrect",
         });
       } else {
@@ -172,11 +178,13 @@ const forgetVerify = async (req, res) => {
         { $set: { token: randomString } }
       );
       sendResetPasswordMail(userData.name, userData.email, randomString);
-      res.render("forget", {
+      return res.render("forget", {
         message: "Please check your mail to reset your Password",
       });
     } else {
-      res.render("forget", { message: "User not found or Email is incorrect" });
+      return res.render("forget", {
+        message: "User not found or Email is incorrect",
+      });
     }
   } catch (error) {
     console.log(error.message);
@@ -190,9 +198,9 @@ const forgetPasswordLoad = async (req, res) => {
     const tokenData = await User.findOne({ token: token });
 
     if (tokenData) {
-      res.render("forget-password", { user_id: tokenData._id });
+      return res.render("forget-password", { user_id: tokenData._id });
     } else {
-      res.render("404", { message: "Invalid Link" });
+      return res.render("404", { message: "Invalid Link" });
     }
   } catch (error) {
     console.log(error.message);
@@ -209,7 +217,7 @@ const resetPassword = async (req, res) => {
         $set: { password: securePass, token: "" },
       }
     );
-    res.redirect("/admin");
+    return res.redirect("/admin");
   } catch (error) {
     console.log(error.message);
   }
@@ -249,7 +257,7 @@ const adminDashboard = async (req, res) => {
       ],
     }).countDocuments();
 
-    res.render("dashboard", {
+    return res.render("dashboard", {
       users: usersData,
       totalPages: Math.ceil(count / limit),
       currentPage: page,
@@ -262,7 +270,7 @@ const adminDashboard = async (req, res) => {
 // Add New User Start
 const newUserLoad = async (req, res) => {
   try {
-    res.render("new-user");
+    return res.render("new-user");
   } catch (error) {
     console.log(error.message);
   }
@@ -290,9 +298,9 @@ const newUser = async (req, res) => {
     if (userData) {
       addUserMail(name, email, password, userData._id);
 
-      res.redirect("/admin/dashboard");
+      return res.redirect("/admin/dashboard");
     } else {
-      res.render("new-user", { message: "Something Wrong" });
+      return res.render("new-user", { message: "Something Wrong" });
     }
   } catch (error) {
     console.log(error.message);
@@ -306,9 +314,9 @@ const editUserLoad = async (req, res) => {
     const id = req.query.id;
     const userData = await User.findById({ _id: id });
     if (userData) {
-      res.render("edit-user", { user: userData });
+      return res.render("edit-user", { user: userData });
     } else {
-      res.redirect("/admin/dashboard");
+      return res.redirect("/admin/dashboard");
     }
   } catch (error) {
     console.log(error.message);
@@ -328,7 +336,7 @@ const updateUser = async (req, res) => {
         },
       }
     );
-    res.redirect("/admin/dashboard");
+    return res.redirect("/admin/dashboard");
   } catch (error) {
     console.log(error.message);
   }
@@ -338,7 +346,7 @@ const deleteUser = async (req, res) => {
   try {
     const id = req.query.id;
     await User.deleteOne({ _id: id });
-    res.redirect("/admin/dashboard");
+    return res.redirect("/admin/dashboard");
   } catch (error) {
     console.log(error.message);
   }
@@ -377,7 +385,7 @@ const exportUsers = async (req, res) => {
     );
     res.setHeader("Content-Disposition", "attachment;filename=users.xlsx");
     return workbook.xlsx.write(res).then(() => {
-      res.status(200);
+      return res.status(200);
     });
   } catch (error) {
     console.log(error.message);
@@ -418,7 +426,7 @@ const exportUserPdf = async (req, res) => {
           "Content-Disposition",
           'attachment;filename= "users.pdf"'
         );
-        res.send(file);
+        return res.send(file);
       });
     });
   } catch (error) {
