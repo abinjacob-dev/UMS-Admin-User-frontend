@@ -45,6 +45,7 @@ admin_route.post("/new-user", upload.single("image"), adminContoller.newUser);
 admin_route.get("/edit-user", auth.isLogin, adminContoller.editUserLoad);
 admin_route.post("/edit-user", adminContoller.updateUser);
 admin_route.get("/delete-user", adminContoller.deleteUser);
+admin_route.get("/export-users",auth.isLogin,adminContoller.exportUsers)
 
 admin_route.get("*", function (req, res) {
   res.redirect("/admin");

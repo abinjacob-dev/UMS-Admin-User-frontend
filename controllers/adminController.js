@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const randomstring = require("randomstring");
 const config = require("../config/config");
 const nodemailer = require("nodemailer");
+const excelJS = require("exceljs");
 
 const securePassword = async (password) => {
   try {
@@ -302,6 +303,46 @@ const deleteUser = async (req, res) => {
   }
 };
 
+// export users data
+const exportUsers = async (req, res) => {
+  try {
+    const workbook = new excelJS.Workbook();
+    const worksheet = workbook.addWorksheet("My Users");
+    worksheet.columns = [
+      { header: "S. No.", key: "s_no" },
+      { header: "Name", key: "name" },
+      { header: "Email ID", key: "email" },
+      { header: "Mobile", key: "mobile" },
+      { header: "Image", key: "image" },
+      { header: "Is Admin", key: "is_admin" },
+      { header: "Is Verified", key: "is_verified" },
+    ];
+    let counter = 1;
+    const userData = await User.find({ is_admin: 0 });
+
+    userData.forEach((user) => {
+      user.s_no = counter;
+
+      worksheet.addRow(user);
+
+      counter++;
+    });
+    worksheet.getRow(1).eachCell((cell) => {
+      cell.font = { bold: true };
+    });
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheatml.sheet"
+    );
+    res.setHeader("Content-Disposition", "attachment;filename=users.xlsx");
+    return workbook.xlsx.write(res).then(() => {
+      res.status(200);
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 module.exports = {
   loadLogin,
   verifyLogin,
@@ -317,4 +358,5 @@ module.exports = {
   editUserLoad,
   updateUser,
   deleteUser,
+  exportUsers,
 };
