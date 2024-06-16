@@ -39,7 +39,7 @@ admin_route.get(
   adminContoller.forgetPasswordLoad
 );
 admin_route.post("/forget-password", adminContoller.resetPassword);
-admin_route.get("/dashboard", auth.isLogin, adminContoller.adminDashboard);
+admin_route.get("/dashboard", adminContoller.adminDashboard);
 admin_route.get("/new-user", auth.isLogin, adminContoller.newUserLoad);
 admin_route.post("/new-user", upload.single("image"), adminContoller.newUser);
 admin_route.get("/edit-user", auth.isLogin, adminContoller.editUserLoad);

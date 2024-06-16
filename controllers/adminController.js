@@ -217,8 +217,43 @@ const resetPassword = async (req, res) => {
 
 const adminDashboard = async (req, res) => {
   try {
-    const usersData = await User.find({ is_admin: 0 });
-    res.render("dashboard", { users: usersData });
+    var search = "";
+    if (req.query.search) {
+      search = req.query.search;
+    }
+
+    var page = 1;
+    if (req.query.page) {
+      page = req.query.page;
+    }
+    const limit = 2;
+
+    const usersData = await User.find({
+      is_admin: 0,
+      $or: [
+        { name: { $regex: ".*" + search + ".*", $options: "i" } },
+        { email: { $regex: ".*" + search + ".*", $options: "i" } },
+        { mobile: { $regex: ".*" + search + ".*", $options: "i" } },
+      ],
+    })
+      .limit(limit * 1)
+      .skip((page - 1) * limit)
+      .exec();
+
+    const count = await User.find({
+      is_admin: 0,
+      $or: [
+        { name: { $regex: ".*" + search + ".*", $options: "i" } },
+        { email: { $regex: ".*" + search + ".*", $options: "i" } },
+        { mobile: { $regex: ".*" + search + ".*", $options: "i" } },
+      ],
+    }).countDocuments();
+
+    res.render("dashboard", {
+      users: usersData,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+    });
   } catch (error) {
     console.log(error.message);
   }
@@ -362,9 +397,9 @@ const exportUserPdf = async (req, res) => {
     );
     const htmlString = fs.readFileSync(filePathName).toString();
     let options = {
-      format : "A3",
-      orientation:"portrait",
-      border:"10mm"
+      format: "A3",
+      orientation: "portrait",
+      border: "10mm",
       // format: "Letter",
     };
     const ejsData = ejs.render(htmlString, data);
