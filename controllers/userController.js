@@ -209,8 +209,9 @@ const forgetVerify = async (req, res) => {
     const email = req.body.email;
     const userData = await User.findOne({ email: email });
     if (userData) {
-      if (userData.is_verified === 0) {
-        return res.render("forget", { message: "Please verify your mail." });
+      // userData.is_verified === 0 Tutorial.if 0 && 1 both verified and not veriifed can reset password
+      if (userData.is_verified === 0 && 1) {
+        res.render("forget", { message: "Please verify your mail." });
       } else {
         const randomstring = randomString.generate();
         const updatedData = await User.updateOne(
@@ -219,7 +220,7 @@ const forgetVerify = async (req, res) => {
         );
         sendResetPasswordMail(userData.name, userData.email, randomstring);
         return res.render("forget", {
-          message: "Please Check your mail to reset your password",
+          message: "Mail Sent, Please Check your mail to reset your password",
         });
       }
     } else {

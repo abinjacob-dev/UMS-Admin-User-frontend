@@ -1,25 +1,68 @@
-<h1>
 
-<%= message %>
 
-</h1>
 
-<div class="row justify-content-center">
-    <div class="col-md-12 col-sm-12">
-        <div class="card shadow-lg border-0 rounded-lg mt-5 mx-auto" style="width: 30rem;">
-            <h3 class="card-header display-1 text-muted text-center">
-                404
+
+
+<%- include("../layouts/index-header.ejs") %> 
+    <style>
+        
+/*======================
+    404 page
+=======================*/
+
+
+.page_404{ padding:40px 0; background:#fff; font-family: 'Arvo', serif;
+}
+
+.page_404  img{ width:100%;}
+
+.four_zero_four_bg{
+ 
+ background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
+    height: 400px;
+    background-position: center;
+ }
+ 
+ 
+ .four_zero_four_bg h1{
+ font-size:80px;
+ }
+ 
+  .four_zero_four_bg h3{
+			 font-size:80px;
+			 }
+			 
+			 .link_404{			 
+	color: #fff!important;
+    padding: 10px 20px;
+    background: #39ac31;
+    margin: 20px 0;
+    display: inline-block;}
+	.contant_box_404{ margin-top:-50px;}
+    </style>
+    <section class="page_404">
+        
+            <div class="row" style="margin-left: 15%;">	
+            <div class="col-sm-12 ">
+            <div class="col-sm-10 col-sm-offset-1  text-center">
+            <div class="four_zero_four_bg">
+                <h1 class="text-center ">404</h1>
+            
+            
+            </div>
+            
+            <div class="contant_box_404">
+            <h3 class="h2">
+            Look like you're lost
             </h3>
-
-            <span class="card-subtitle mb-2 text-muted text-center">
-                Page Could Not Be Found 
-            </span>
-
-
-            <div class="card-body mx-auto">
-                <a type="button" href="#"
-                class="btn btn-sm btn-info text-white"> Back To Home </a>
+            
+            <p>the page you are looking for not avaible!</p>
+            <input type="hidden"  value="<%= message %>">
+            <a href="/" class="link_404">Go to Home</a>
+        
+            </div>
+            </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
+    <%- include("../layouts/index-footer.ejs") %> 
