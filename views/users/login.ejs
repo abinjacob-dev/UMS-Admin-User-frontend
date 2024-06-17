@@ -1,6 +1,4 @@
-<%- include("../layouts/header.ejs") %> <%if(typeof message !== 'undefined'){%>
-<h4><%=message%></h4>
-<%}%>
+<%- include("../layouts/user-header.ejs") %> 
 
 <div
   class="container d-flex justify-content-center align-items-center min-vh-100"
@@ -28,6 +26,8 @@
         style="width: 17rem; font-family: 'Courier New', Courier, monospace"
         >Join experienced Designers on this platform.</small
       >
+      <br><br>
+      
     </div>
 
     <!-------------------- ------ Right Box ---------------------------->
@@ -38,7 +38,11 @@
           <div class="header-text mb-4">
             <h2>Login</h2>
             <p>Fill in the data below.</p>
+            <%if(typeof message !== 'undefined'){%>
+              <p  style="width: 20rem;color: red; font-family: 'Courier New', Courier, monospace" ><%=message%></p>
+              <%}%>
           </div>
+          
           <div class="input-group mb-3">
             <input
               type="email"
@@ -58,12 +62,14 @@
           </div>
           <div class="input-group mb-5 d-flex justify-content-between">
             <div class="form-check">
+              
               <!-- <input type="checkbox" class="form-check-input" id="formCheck"> -->
               <!-- <label for="formCheck" class="form-check-label text-secondary"><small>Remember Me</small></label> -->
             </div>
             <div class="forgot">
               <br />
               <small><a href="/forget">Forgot Password?</a></small>
+              
             </div>
           </div>
           <div class="input-group mb-3">
@@ -91,4 +97,4 @@
   </div>
 </div>
 
-<%- include("../layouts/footer.ejs") %>
+<%- include("../layouts/user-footer.ejs") %>

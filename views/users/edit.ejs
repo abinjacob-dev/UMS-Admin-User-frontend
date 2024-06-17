@@ -1,4 +1,4 @@
-<% include("../layouts/header.ejs") %>
+<%- include("../layouts/user-header.ejs") %> 
 
 <h1>Edit Profile</h1>
 
@@ -38,4 +38,4 @@
 
 <% if (typeof message !== "undefined") { %>
 <p style="color: green"><%= message %></p>
-<% } else { %> <% } %> <% include("../layouts/footer.ejs") %>
+<% } else { %> <% } %> <%- include("../layouts/user-footer.ejs") %>

@@ -6,6 +6,12 @@ body{
     
 }
 
+.navbar{
+    position: fixed;
+    width: 100%;
+    margin-top: 0%;
+    z-index: 999;
+}
 
 .body-content{
     padding-top: 5%;
@@ -52,9 +58,14 @@ body{
      .right-box{
         padding: 20px;
      }
+     .body-content{
+        padding-top: 5%;
+    }
 
 }
 
+/* Footer */
 
-
-
+footer{
+    margin-bottom: 1%;
+}

@@ -1,4 +1,4 @@
-<% include("../layouts/header.ejs") %>
+<%- include("../layouts/user-header.ejs") %> 
 
 <h3>Welcome, <%=user.name%></h3>
 
@@ -34,4 +34,4 @@
 <a href="/edit?id=<%=user._id%>">Edit</a>
 <a href="/logout">Logout</a>
 
-<% include("../layouts/footer.ejs") %>
+<%- include("../layouts/user-footer.ejs") %>
