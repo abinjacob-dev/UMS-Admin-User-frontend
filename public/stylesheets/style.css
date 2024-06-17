@@ -1,71 +1,69 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+/* Header Start  */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
 
-body{
-    font-family: 'Poppins', sans-serif;
-    background: #ececec;
-    
+body {
+  font-family: "Poppins", sans-serif;
+  background: #ececec;
 }
 
-.navbar{
-    position: fixed;
-    width: 100%;
-    margin-top: 0%;
-    z-index: 999;
+.navbar {
+  position: fixed;
+  width: 100%;
+  margin-top: 0%;
+  z-index: 999;
 }
 
-.body-content{
-    padding-top: 5%;
+.body-content {
+  padding-top: 5%;
 }
 
 /*------------ Login container ------------*/
 
-.box-area{
-    width: 930px;
+.box-area {
+  width: 930px;
 }
 
 /*------------ Right box ------------*/
 
-.right-box{
-    padding: 40px 30px 40px 40px;
+.right-box {
+  padding: 40px 30px 40px 40px;
 }
 
 /*------------ Custom Placeholder ------------*/
 
-::placeholder{
-    font-size: 16px;
+::placeholder {
+  font-size: 16px;
 }
 
-.rounded-4{
-    border-radius: 20px;
+.rounded-4 {
+  border-radius: 20px;
 }
-.rounded-5{
-    border-radius: 30px;
+.rounded-5 {
+  border-radius: 30px;
 }
-
 
 /*------------ For small screens------------*/
 
-@media only screen and (max-width: 768px){
-
-     .box-area{
-        margin: 0 10px;
-
-     }
-     .left-box{
-        height: 100px;
-        overflow: hidden;
-     }
-     .right-box{
-        padding: 20px;
-     }
-     .body-content{
-        padding-top: 5%;
-    }
-
+@media only screen and (max-width: 768px) {
+  .box-area {
+    margin: 0 10px;
+  }
+  .left-box {
+    height: 100px;
+    overflow: hidden;
+  }
+  .right-box {
+    padding: 20px;
+  }
+  .body-content {
+    padding-top: 5%;
+  }
 }
+/* Header End  */
 
-/* Footer */
+/* Footer Start */
 
-footer{
-    margin-bottom: 1%;
+footer {
+  margin-bottom: 1%;
 }
+/* Footer End */
