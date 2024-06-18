@@ -1,37 +1,46 @@
-<%- include("../layouts/user-header.ejs") %> 
+<%- include("../layouts/user-header.ejs") %>
 
-<h3>Welcome, <%=user.name%></h3>
+<link rel="stylesheet" href="/public/stylesheets/user-css/user-home.css" />
 
-<table width="50%">
-  <tr>
-    <td>
-      <img
-        src="userImages/pf.webp"
-        width="25%"
-        height="25%"
-        alt="<%=user.image%>"
-      />
-    </td>
-    <!-- <td><img src="userImages/<%=user.image%>" width="25%" height="25%" alt="<%=user.image%>" /></td> -->
-  </tr>
-  <tr>
-    <td>Email</td>
-    <td><%=user.email%></td>
-  </tr>
-  <tr>
-    <td>Mobile</td>
-    <td><%=user.mobile%></td>
-  </tr>
-  <tr>
-    <td>Verified</td>
-    <td>
-      <%if(user.is_verified == 1){%>
-      <p>True</p>
-      <%}%>
-    </td>
-  </tr>
-</table>
-<a href="/edit?id=<%=user._id%>">Edit</a>
-<a href="/logout">Logout</a>
+<section class="content">
+  <div class="row container-fluid">
+    <div class="home-profile-card wrapper">
+      <div class="text-center">
+        <img
+          class="img-rounded img-fluid"
+          src="./assets/imgs/customer01.jpg"
+          class="card-img-top"
+          alt="..."
+        />
+      </div>
+
+      <div class="card-body mt-4">
+        <h3 class="text-center"><%=user.name%></h3>
+        <div class="table-responsive">
+          <table class="table border-light mt-4">
+            <tbody style="text-align: center">
+              <tr>
+                <th scope="row">Email</th>
+                <td><%=user.email%></td>
+              </tr>
+              <tr>
+                <th scope="row">Mobile</th>
+                <td><%=user.mobile%></td>
+              </tr>
+              <tr>
+                <th scope="row">Verified</th>
+                <td>
+                  <%if(user.is_verified == 1){%>
+                  <p>True</p>
+                  <%}%>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <%- include("../layouts/user-footer.ejs") %>
