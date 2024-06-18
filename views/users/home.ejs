@@ -5,15 +5,18 @@
 <section class="content">
   <div class="row container-fluid">
     <div class="home-profile-card wrapper">
+      <div class="text-end">
+        
+        <a class="btn btn-light btn-sm" href="/edit?id=<%=user._id%>" role="button"><ion-icon name="create-outline"></ion-icon>&nbsp Edit Account</a>
+      </div>
+
       <div class="text-center">
-        <i class="bi bi-person-circle"></i>
         <img
           class="img-rounded img-fluid"
           src="./assets/imgs/customer01.jpg"
           class="card-img-top"
           alt="..."
         />
-        
       </div>
 
       <div class="card-body mt-4">
@@ -33,7 +36,7 @@
                 <th scope="row">Verified</th>
                 <td>
                   <%if(user.is_verified == 1){%>
-                  <p>True</p>
+                  <p>Yes</ion-icon></p>
                   <%}%>
                 </td>
               </tr>

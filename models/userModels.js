@@ -20,6 +20,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  personal_details:{
+
+  },
   token: {
     type: String,
     default: "",
