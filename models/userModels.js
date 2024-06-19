@@ -19,17 +19,15 @@ const userSchema = new mongoose.Schema(
     image: {
       type: String,
       default: "",
-      
     },
     password: {
       type: String,
       required: true,
     },
-    age:{
+    age: {
       type: String,
-      default:""
-    }
-    ,
+      default: "",
+    },
     token: {
       type: String,
       default: "",

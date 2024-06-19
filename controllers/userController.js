@@ -106,7 +106,7 @@ const insertUser = async (req, res) => {
       mobile: req.body.mno,
       password: spassword,
       is_admin: 0,
-      image:req.body.name,
+      image: req.body.name,
       // image: req.file.filename,
       // comment down
       // spassword - secure passsword
