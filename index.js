@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/user_management_system");
+const dotenv = require("dotenv").config();
+mongoose.connect(process.env.MONGODB_URL);
 const express = require("express");
 const path = require("path")
 const user_route = require("./routes/userRoute");

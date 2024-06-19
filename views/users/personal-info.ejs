@@ -1,8 +1,8 @@
 <%- include("../layouts/user-header.ejs") %>
 
-<h1>Edit Profile</h1>
+<h1>Personal Information</h1>
 
-<img src="userImages/<%= user.image %>" width="5%" height="5%" alt="" />
+
 <form action="" method="post" enctype="multipart/form-data">
   <input type="file" name="image" hidden />
   <input type="text" name="user_id" value="<%=user._id%>" hidden />
@@ -30,7 +30,18 @@
     required
   />
   <br /><br />
+<!-- **** personal_info start**** -->
+<input
+    type="text"
+    name="age"
+    value="<%=user.age%>"
+    placeholder="age"
+    required
+  />
+  <br /><br />
 
+
+<!-- **** personal_info end **** -->
   <input type="Submit" value="Update Profile" />
   <a href="/home">Home</a>
   <br /><br />

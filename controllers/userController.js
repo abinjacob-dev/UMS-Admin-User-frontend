@@ -104,10 +104,12 @@ const insertUser = async (req, res) => {
       name: req.body.name,
       email: req.body.email,
       mobile: req.body.mno,
-      image: req.file.filename,
       password: spassword,
-      // spassword - secure passsword
       is_admin: 0,
+      image:req.body.name,
+      // image: req.file.filename,
+      // comment down
+      // spassword - secure passsword
     });
     const userData = await user.save();
     if (userData) {
@@ -317,7 +319,7 @@ const updateProfile = async (req, res) => {
             name: req.body.name,
             email: req.body.email,
             mobile: req.body.mno,
-            image: req.file.filename,
+            // image: req.file.filename,
           },
         }
       );
@@ -329,6 +331,53 @@ const updateProfile = async (req, res) => {
             name: req.body.name,
             email: req.body.email,
             mobile: req.body.mno,
+          },
+        }
+      );
+    }
+    return res.redirect("/home");
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const personalInfoLoad = async (req, res) => {
+  try {
+    const id = req.query.id;
+    const userData = await User.findById({ _id: id });
+    if (userData) {
+      res.render("personal-info", { user: userData });
+    } else {
+      return res.redirect("/home");
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const updatePersonalInfo = async (req, res) => {
+  try {
+    if (req.file) {
+      const userData = await User.findByIdAndUpdate(
+        { _id: req.body.user_id },
+        {
+          $set: {
+            name: req.body.name,
+            email: req.body.email,
+            mobile: req.body.mno,
+            // image: req.file.filename,
+          },
+        }
+      );
+    } else {
+      const userData = await User.findByIdAndUpdate(
+        { _id: req.body.user_id },
+        {
+          $set: {
+            name: req.body.name,
+            email: req.body.email,
+            mobile: req.body.mno,
+            age: req.body.age,
           },
         }
       );
@@ -355,4 +404,6 @@ module.exports = {
   sendVerificationLink,
   editLoad,
   updateProfile,
+  personalInfoLoad,
+  updatePersonalInfo,
 };

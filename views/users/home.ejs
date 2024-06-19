@@ -5,19 +5,27 @@
 <section class="content">
   <div class="row container-fluid">
     <div class="home-profile-card wrapper">
-      <div class="text-end">
+      <div>
         
-        <a class="btn btn-light btn-sm" href="/edit?id=<%=user._id%>" role="button"><ion-icon name="create-outline"></ion-icon>&nbsp Edit Account</a>
       </div>
+      <div class="text-end">
+        <a
+          class="btn btn-light btn-sm"
+          href="/edit?id=<%=user._id%>"
+          role="button"
+          ><ion-icon name="create-outline"></ion-icon>&nbsp Edit Account</a
+        >
+      </div>
+      
 
-      <div class="text-center">
+      <!-- <div class="text-center">
         <img
           class="img-rounded img-fluid"
           src="./assets/imgs/customer01.jpg"
           class="card-img-top"
           alt="..."
         />
-      </div>
+      </div> -->
 
       <div class="card-body mt-4">
         <h3 class="text-center"><%=user.name%></h3>
@@ -36,7 +44,7 @@
                 <th scope="row">Verified</th>
                 <td>
                   <%if(user.is_verified == 1){%>
-                  <p>Yes</ion-icon></p>
+                  <p>Yes</p>
                   <%}%>
                 </td>
               </tr>
