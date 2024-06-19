@@ -1,40 +1,73 @@
 <%- include("../layouts/user-header.ejs") %>
+<section>
+  <div class="row container-fluid">
+    <header class="wrapper">
+      <h5 class="mt-2">Edit Profile</h5>
+    </header>
 
-<h1>Edit Profile</h1>
+    <div class="edit-profile wrapper mt-2">
+      <img
+        src="userImages/<%= user.image %>"
+        width="25%"
+        height="25%"
+        alt=""
+        hidden
+      />
+      <form action="" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" hidden />
+        <input type="text" name="user_id" value="<%=user._id%>" hidden />
+        <div class="update-button pb-3 mx-auto text-end">
+          <input class="btn btn-primary btn-sm" role="button" type="submit" value="Update Profile" />
+      
+        </div>
+        
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">&nbspName&nbsp</span>
+          </div>
+          <input
+            type="text"
+            name="name"
+            value="<%=user.name%>"
+            class="form-control"
+            placeholder="Enter your name"
+            aria-label="Enter your name"
+            aria-describedby="basic-addon1"
+          />
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">&nbsp&nbspEmail&nbsp</span>
+          </div>
+          <input
+            type="text"
+            name="email"
+            value="<%=user.email%>"
+            class="form-control"
+            placeholder="Enter your email"
+            aria-label="Enter your email"
+            aria-describedby="basic-addon1"
+          />
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Mobile</span>
+          </div>
+          <input
+            type="text"
+            name="mno"
+            value="<%=user.mobile%>"
+            class="form-control"
+            placeholder="Enter your Mobile.no"
+            aria-label="Enter your Mobile.no"
+            aria-describedby="basic-addon1"
+          />
+        </div>
 
-<img src="userImages/<%= user.image %>" width="5%" height="5%" alt="" />
-<form action="" method="post" enctype="multipart/form-data">
-  <input type="file" name="image" hidden />
-  <input type="text" name="user_id" value="<%=user._id%>" hidden />
-  <input
-    type="text"
-    name="name"
-    value="<%=user.name%>"
-    placeholder="Enter your name"
-    required
-  />
-  <br /><br />
-  <input
-    type="email"
-    name="email"
-    value="<%=user.email%>"
-    placeholder="Enter you email"
-    required
-  />
-  <br /><br />
-  <input
-    type="text"
-    name="mno"
-    value="<%=user.mobile%>"
-    placeholder="Enter Mobile"
-    required
-  />
-  <br /><br />
-
-  <input type="Submit" value="Update Profile" />
-  <a href="/home">Home</a>
-  <br /><br />
-</form>
+        </form>
+    </div>
+  </div>
+</section>
 
 <% if (typeof message !== "undefined") { %>
 <p style="color: green"><%= message %></p>
