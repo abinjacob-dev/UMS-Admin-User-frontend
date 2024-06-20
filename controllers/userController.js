@@ -141,6 +141,14 @@ const verifyMail = async (req, res) => {
   }
 };
 
+const indexLoad = async (req, res) => {
+  try {
+    return res.render("index");
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 // Login user method Started
 
 const loginLoad = async (req, res) => {
@@ -162,6 +170,7 @@ const verifyLogin = async (req, res) => {
         if (userData.is_verified === 0) {
           return res.render("login", { message: "Please verify your mail" });
         } else {
+          req.session.user = userData
           req.session.user_id = userData._id;
           return res.redirect("/home");
         }
@@ -390,6 +399,7 @@ const updatePersonalInfo = async (req, res) => {
 };
 
 module.exports = {
+  indexLoad,
   loadRegister,
   insertUser,
   verifyMail,

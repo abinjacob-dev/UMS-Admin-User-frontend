@@ -3,6 +3,7 @@ const user_route = express();
 const session = require("express-session");
 const config = require("../config/config");
 
+// user_route.use(session({ secret: config.sessionSecret,cookie:{maxAge:9999999999999999999999999999} }));
 user_route.use(session({ secret: config.sessionSecret }));
 const auth = require("../middleware/auth");
 user_route.set("view engine", "ejs");
@@ -30,7 +31,7 @@ const userController = require("../controllers/userController");
 user_route.get("/register", auth.isLogout, userController.loadRegister);
 user_route.post("/register", upload.single("image"), userController.insertUser);
 user_route.get("/verify", userController.verifyMail);
-user_route.get("/", auth.isLogout, userController.loginLoad);
+user_route.get("/", auth.isLogout, userController.indexLoad);
 user_route.get("/login", auth.isLogout, userController.loginLoad);
 user_route.post("/login", userController.verifyLogin);
 user_route.get("/home", auth.isLogin, userController.loadHome);
@@ -53,5 +54,9 @@ user_route.post(
   upload.single("image"),
   userController.updatePersonalInfo
 );
+user_route.get("*", function (req, res) {
+  res.redirect("/home");
+});
+
 
 module.exports = user_route;

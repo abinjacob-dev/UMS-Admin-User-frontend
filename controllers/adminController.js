@@ -81,7 +81,7 @@ const addUserMail = async (name, email, password, user_id) => {
         user_id +
         '"> verify </a> your mail.</p> <br><br><b>Email:-</b>' +
         email +
-        "<br><b>Password:-</b>" +
+        "<br><b>Password :- &nbsp</b>" +
         password +
         "",
     };
