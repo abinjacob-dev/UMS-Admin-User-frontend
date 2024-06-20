@@ -35,7 +35,7 @@ const sendResetPasswordMail = async (name, email, token) => {
       },
     });
     const mailOptions = {
-      from: config.emailUser,
+      from: "shinytm36@gmail.com",
       to: email,
       subject: "For Reset Password",
       html:
@@ -71,7 +71,7 @@ const addUserMail = async (name, email, password, user_id) => {
       },
     });
     const mailOptions = {
-      from: config.emailUser,
+      from: "shinytm36@gmail.com",
       to: email,
       subject: "Admin added, verify your mail",
       html:
@@ -281,7 +281,7 @@ const newUser = async (req, res) => {
     const name = req.body.name;
     const email = req.body.email;
     const mobile = req.body.mno;
-    const image = req.file.filename;
+    const image = req.body.name;
     const password = randomstring.generate(8);
     const spassword = await securePassword(password);
 

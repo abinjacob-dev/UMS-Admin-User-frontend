@@ -5,11 +5,11 @@ const config = require("../config/config");
 
 user_route.use(session({ secret: config.sessionSecret }));
 const auth = require("../middleware/auth");
-
 user_route.set("view engine", "ejs");
 user_route.set("views", "./views/users");
 const bodyParser = require("body-parser");
 user_route.use(bodyParser.json());
+
 user_route.use(bodyParser.urlencoded({ extended: true }));
 const multer = require("multer");
 const path = require("path");

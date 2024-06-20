@@ -31,7 +31,7 @@ const sendVerifyMail = async (name, email, user_id) => {
       },
     });
     const mailOptions = {
-      from: config.emailUser,
+      from: "shinytm36@gmail.com",
       to: email,
       subject: "Verification mail",
       html:
@@ -104,9 +104,10 @@ const insertUser = async (req, res) => {
       name: req.body.name,
       email: req.body.email,
       mobile: req.body.mno,
+      image: req.body.name,
       password: spassword,
       is_admin: 0,
-      image: req.body.name,
+
       // image: req.file.filename,
       // comment down
       // spassword - secure passsword
