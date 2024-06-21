@@ -19,11 +19,7 @@ const isLogout = async (req, res, next) => {
     console.log(error.message);
   }
 };
-
-
-
 module.exports = {
-  isLogin,
-  isLogout,
-
-};
+    isLogin,
+    isLogout,
+}

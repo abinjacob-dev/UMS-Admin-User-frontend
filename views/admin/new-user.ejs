@@ -1,4 +1,92 @@
-<%- include("../layouts/index-header.ejs") %>
+
+<%- include("../layouts/admin-header.ejs") %>
+
+<section>
+  <div class="row container-fluid">
+    <header class="wrapper">
+      <h5 class="mt-2">Add User</h5>
+    </header>
+
+    <div class="edit-profile wrapper mt-2">
+      
+      <form action="" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" hidden />
+        <input type="text" name="user_id" value="" hidden />
+        <div class="update-button pb-3 mx-auto text-end">
+          <input
+            class="btn btn-primary btn-sm"
+            role="button"
+            type="submit"
+            value="Add New User"
+          />
+        </div>
+
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1"
+              >&nbspName&nbsp</span
+            >
+          </div>
+          <input
+            type="text"
+            name="name"
+            required
+            value=""
+            class="form-control"
+            placeholder="Enter user's name"
+            aria-label="Enter user's name"
+            aria-describedby="basic-addon1"
+          />
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1"
+              >&nbsp&nbspEmail&nbsp</span
+            >
+          </div>
+          <input
+            type="text"
+            name="email"
+            required
+            value=""
+            class="form-control"
+            placeholder="Enter user's email"
+            aria-label="Enter user's email"
+            aria-describedby="basic-addon1"
+          />
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Mobile</span>
+          </div>
+          <input
+            type="text"
+            name="mno"
+            required
+            value=""
+            class="form-control"
+            placeholder="Enter user's Mobile.no"
+            aria-label="Enter user's Mobile.no"
+            aria-describedby="basic-addon1"
+          />
+        </div>
+      </form>
+      <% if (typeof message !== "undefined") { %>
+        <p style="color: red"><%= message %></p>
+        <% } else { %> <% } %>
+        
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+<%- include("../layouts/admin-footer.ejs") %>
+
+
 
 <h1>Add New User</h1>
 

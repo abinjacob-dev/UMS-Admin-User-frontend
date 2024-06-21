@@ -223,7 +223,7 @@ const forgetVerify = async (req, res) => {
     if (userData) {
       // userData.is_verified === 0 Tutorial.if 0 && 1 both verified and not veriifed can reset password
       if (userData.is_verified === 0 && 1) {
-        res.render("forget", { message: "Please verify your mail." });
+      return res.render("forget", { message: "Please verify your mail." });
       } else {
         const randomstring = randomString.generate();
         const updatedData = await User.updateOne(
@@ -356,7 +356,7 @@ const personalInfoLoad = async (req, res) => {
     const id = req.query.id;
     const userData = await User.findById({ _id: id });
     if (userData) {
-      res.render("personal-info", { user: userData });
+   return   res.render("personal-info", { user: userData });
     } else {
       return res.redirect("/home");
     }

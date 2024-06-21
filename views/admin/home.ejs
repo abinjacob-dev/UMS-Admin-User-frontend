@@ -1,22 +1,80 @@
-<%- include("../layouts/index-header.ejs") %> 
-<h1>Welcome, <%=admin.name%></h1>
+<%- include("../layouts/admin-header.ejs") %>
 
-<a href="/admin/dashboard">Dashboard</a>
 
-<table style="width: 50%;">
-<tr>
-    <td><img src="/userImages/pf.webp" width="25%" height="25%" alt=""></td>
-    <!-- <td><img src="userImages/<%=admin.image%>" width="25%" height="25%" alt="<%=admin.image%>"></td> -->
-</tr>
-<tr>
-    <td>Email</td>
-    <td><%=admin.email%></td>
-</tr>
-<tr>
-    <td>Mobile</td>
-    <td><%=admin.mobile%></td>
-</tr>
-</table>
-<a href="/admin/logout">Logout</a>
+
+<link rel="stylesheet" href="/public/stylesheets/user-css/user-home.css" />
+
+<section class="content">
+  <div class="row container-fluid">
+    <header class="wrapper">
+      <h5 class="mt-2">Home</h5>
+    </header>
+
+    <div class="home-profile-card wrapper mt-2">
+      <!-- <div class="text-end">
+        <a
+          class="btn btn-light btn-sm"
+          href="/edit?id=<%=admin._id%>"
+          role="button"
+          ><ion-icon name="create-outline"></ion-icon>&nbsp Edit Account</a
+        >
+      </div> -->
+
+      <!-- <div class="text-center">
+        <img
+          class="img-rounded img-fluid"
+          src="./assets/imgs/customer01.jpg"
+          class="card-img-top"
+          alt="..."
+        />
+      </div> -->
+
+      <div class="card-body mt-4">
+        <h3 class="text-center"><%=admin.name%></h3>
+        <div class="table-responsive">
+          <table class="table border-light mt-4">
+            <tbody style="text-align: center">
+              <tr>
+                <th scope="row">Email</th>
+                <td><%=admin.email%></td>
+              </tr>
+              <tr>
+                <th scope="row">Mobile</th>
+                <td><%=admin.mobile%></td>
+              </tr>
+              <tr>
+                <th scope="row">Verified</th>
+                <td>
+                  <%if(admin.is_verified == 1){%>
+                  <p>Yes</p>
+                  <%}%>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <%- include("../layouts/admin-footer.ejs") %>

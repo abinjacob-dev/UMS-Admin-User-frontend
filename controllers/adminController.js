@@ -81,7 +81,7 @@ const addUserMail = async (name, email, password, user_id) => {
         user_id +
         '"> verify </a> your mail.</p> <br><br><b>Email:-</b>' +
         email +
-        "<br><b>Password :- &nbsp</b>" +
+        "<br><b>Password :- </b>" +
         password +
         "",
     };
@@ -119,6 +119,8 @@ const verifyLogin = async (req, res) => {
             message: "Email and password is incorrect",
           });
         } else {
+          
+          req.session.user = userData
           req.session.user_id = userData._id;
           return res.redirect("/admin/home");
         }
@@ -140,6 +142,7 @@ const verifyLogin = async (req, res) => {
 const loadDashboard = async (req, res) => {
   try {
     const userData = await User.findById({ _id: req.session.user_id });
+    req.session.admin= userData
     return res.render("home", { admin: userData });
   } catch (error) {
     console.log(error.message);

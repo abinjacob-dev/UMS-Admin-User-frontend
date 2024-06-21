@@ -54,9 +54,6 @@ user_route.post(
   upload.single("image"),
   userController.updatePersonalInfo
 );
-user_route.get("*", function (req, res) {
-  res.redirect("/home");
-});
 
 
 module.exports = user_route;
