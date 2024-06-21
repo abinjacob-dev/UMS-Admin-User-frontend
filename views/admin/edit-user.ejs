@@ -1,46 +1,96 @@
-<%- include("../layouts/index-header.ejs") %> 
-
-<h1>Edit User</h1>
-
-<%if (typeof message !== 'undefined') {%>
+<%- include("../layouts/admin-header.ejs") %> <%if (typeof message !==
+'undefined') {%>
 <h3><%=message%></h3>
 <%}%>
-<form action="" method="post">
-  <input
-    type="name"
-    name="name"
-    placeholder="Enter name"
-    value="<%=user.name%>"
-    required
-  />
-  <br /><br />
-  <input
-    type="email"
-    name="email"
-    placeholder="Enter email"
-    value="<%=user.email%>"
-    required
-  />
-  <br /><br />
-  <input
-    type="text"
-    name="mno"
-    placeholder="Enter Mobile"
-    value="<%=user.mobile%>"
-    required
-  />
-  <br /><br />
-  <label>Verified</label>
-  <input type="radio" name="verify" value="1" <%if(user.is_verified ==
-  1){%>checked<%}%>/>
-  <label>Not Verified</label>
-  <input type="radio" name="verify" value="0" <%if(user.is_verified ==
-  0){%>checked<%}%> />
-  <br /><br />
-  <input type="hidden" name="id" value="<%=user._id%>" />
-  <input type="submit" value="Update User" />
-</form>
-<a href="/admin/">Dashboard</a>
+
+<section>
+  <div class="row container-fluid">
+    <header class="wrapper">
+      <h5 class="mt-2">Edit User</h5>
+    </header>
+
+    <div class="edit-profile wrapper mt-2">
+      <form action="" method="post">
+        <input type="file" name="image" hidden />
+        <input type="text" name="user_id" value="" hidden />
+        <div class="update-button pb-3 mx-auto text-end">
+          <input
+            class="btn btn-primary btn-sm"
+            role="button"
+            type="submit"
+            value="Update User's Account"
+          />
+        </div>
+
+        <div class="input-group mb-3">
+          <% if (typeof message !== "undefined") { %>
+          <p style="color: red"><%= message %></p>
+          <% } else { %> <% } %>
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1"
+              >&nbspName&nbsp</span
+            >
+          </div>
+          <input
+            type="text"
+            name="name"
+            required
+            value="<%=user.name%>"
+            class="form-control"
+            placeholder="Enter user's name"
+            aria-label="Enter user's name"
+            aria-describedby="basic-addon1"
+          />
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1"
+              >&nbsp&nbspEmail&nbsp</span
+            >
+          </div>
+          <input
+            type="text"
+            name="email"
+            required
+            value="<%=user.email%>"
+            class="form-control"
+            placeholder="Enter user's email"
+            aria-label="Enter user's email"
+            aria-describedby="basic-addon1"
+          />
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Mobile</span>
+          </div>
+          <input
+            type="text"
+            name="mno"
+            required
+            value="<%=user.mobile%>"
+            class="form-control"
+            placeholder="Enter user's Mobile.no"
+            aria-label="Enter user's Mobile.no"
+            aria-describedby="basic-addon1"
+          />
+        </div>
 
 
+        <div>
+          
+        <label>Verified</label>
+        <input type="radio" class="form-check-input" name="verify" value="1" <%if(user.is_verified ==
+        1){%>checked<%}%>/>
+        &nbsp&nbsp&nbsp
+        <label>Not Verified</label>
+        <input type="radio" class="form-check-input" name="verify" value="0" <%if(user.is_verified ==
+        0){%>checked<%}%> />
+        <br /><br />
+
+        <input type="hidden" name="id" value="<%=user._id%>" />
+      </div>
+      </form>
+    </div>
+  </div>
+</section>
 <%- include("../layouts/admin-footer.ejs") %>

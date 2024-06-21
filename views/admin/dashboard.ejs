@@ -1,5 +1,119 @@
-<%- include("../layouts/index-header.ejs") %> 
+<%- include("../layouts/admin-header.ejs") %>
 
+<link rel="stylesheet" href="\stylesheets\admin-css\admin-dashboard.css" />
+<section class="content">
+  <div class="row container-fluid">
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.2/js/dataTables.responsive.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.2/js/responsive.bootstrap5.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/responsive/3.0.2/css/responsive.bootstrap5.css"
+    />
+
+    <header class="wrapper">
+      <h5 class="mt-2">Dashboard</h5>
+    </header>
+
+    <br /><br />
+    <div class="usersList wrapper mt-2">
+      <table
+        id="usersList"
+        class="table table-hover nowrap caption-top"
+        style="width: 100%"
+      >
+        <div class="buttons text-end">
+          <a
+            class="btn btn-primary btn-sm"
+            href="/admin/export-users-pdf"
+            role="button"
+            >PDF</a
+          >
+          <a
+            class="btn btn-primary btn-sm"
+            href="/admin/export-users"
+            role="button"
+            >xlsx</a
+          >
+          <a class="btn btn-primary btn-sm" href="/admin/new-user" role="button"
+            >Add New User</a
+          >
+        </div>
+        <caption>
+          All Users
+        </caption>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Mobile.no</th>
+            <th>Email</th>
+            <th>Verified</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%if(users.length>0){%> <%for(i=0;i<users.length;i++){%>
+            <tr>
+              <td><%=users[i].name%></td>
+              <td><%=users[i].mobile%></td>
+              <td><%=users[i].email%></td>
+              <td>
+                <%if(users[i].is_verified == 0){%>
+                <p>Not Verified</p>
+                <%}else{%>
+                <p>Verified</p>
+                <%}%>
+              </td>
+              <td>
+                <a href="/admin/edit-user?id=<%=users[i]._id%>">Edit</a>
+                <a
+                  href="/admin/delete-user?id=<%=users[i]._id%>"
+                  onclick="return confirm('Do you want to Delete <%=users[i].name%> ?')"
+                  >Delete</a
+                >
+              </td>
+            </tr>
+
+            <%}%> <%}else{%>
+            <tr>
+              <td colspan="5">Users Not Found!</td>
+            </tr>
+
+            <%}%>
+            <script>
+              // new DataTable("#usersList");
+              new DataTable("#usersList", {
+                responsive: true,
+              });
+            </script>
+          </users.length;i++){%>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+<script src="public/javascripts/admin-js/admin-dashboard.js"></script>
+<%- include("../layouts/admin-footer.ejs") %>
+
+<!-- 
+      <a href="/admin/new-user">Add New User</a>
+    <a href="/admin/export-users">Export Users(xlsx)</a>
+    <a href="/admin/export-users-pdf">Export Users(PDF)</a>
 <h1>Dashboard</h1>
 <a href="/admin/new-user">Add New User</a>
 <a href="/admin/export-users">Export Users(xlsx)</a>
@@ -54,7 +168,7 @@
                 </td>
 <td>
   <a href="/admin/edit-user?id=<%=users[i]._id%>">Edit</a>
-  <a href="/admin/delete-user?id=<%=users[i]._id%>">Delete</a>
+  <a href="/admin/delete-user?id=<%=users[i]._id%>" onclick="return confirm('Do you want to Delete <%=users[i].name%> ?')">Delete</a>
 </td>
 
             </tr>
@@ -79,9 +193,4 @@
 
 <%}%>
 
-
-
-<br><br>
-<a href="/admin/home">Go to Home</a>
-
-<%- include("../layouts/admin-footer.ejs") %>
+ -->
