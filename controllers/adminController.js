@@ -237,7 +237,7 @@ const adminDashboard = async (req, res) => {
     if (req.query.page) {
       page = req.query.page;
     }
-    const limit = 2;
+    const limit = 5;
 
     const usersData = await User.find({
       is_admin: 0,

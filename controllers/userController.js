@@ -172,6 +172,7 @@ const verifyLogin = async (req, res) => {
         } else {
           req.session.user = userData
           req.session.user_id = userData._id;
+          console.log(req.body)
           return res.redirect("/home");
         }
       } else {

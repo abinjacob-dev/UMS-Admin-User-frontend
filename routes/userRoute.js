@@ -10,6 +10,7 @@ user_route.set("view engine", "ejs");
 user_route.set("views", "./views/users");
 const bodyParser = require("body-parser");
 user_route.use(bodyParser.json());
+user_route.use(express.json())
 
 user_route.use(bodyParser.urlencoded({ extended: true }));
 const multer = require("multer");
