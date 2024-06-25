@@ -1,4 +1,10 @@
 const mongoose = require("mongoose");
+const { isEmail } = require("validator");
+const ROLE = {
+  USER: 0,
+  ADMIN: 1,
+  EDITOR: 2,
+};
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -8,8 +14,16 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: true,
+      required: [true, "Please enter an email"],
       default: "",
+      // unique: true,
+      lowercase: true,
+      validate: [
+        (val) => {
+          isEmail;
+        },
+        "Please enter a valid email",
+      ],
     },
     mobile: {
       type: String,
@@ -22,7 +36,8 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: [true, "Please enter an Password"],
+      // minlength: [6, "Minimum Password length is 6 characters"],
     },
     age: {
       type: String,
@@ -39,9 +54,10 @@ const userSchema = new mongoose.Schema(
     is_verified: {
       type: Number,
       default: 0,
-    },role: {
+    },
+    role: {
       type: Number,
-      default: 0, //0 -> User, 1 ->Admin ,2 -> Sub-admin , 3 -> Editor
+      default: ROLE.USER, //0 -> USER, 1 ->ADMIN ,2 -> EDITOR
     },
   },
   { timestamps: true }

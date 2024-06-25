@@ -1,8 +1,19 @@
+const jwt = require("jsonwebtoken");
 const isLogin = async (req, res, next) => {
   try {
-    if (req.session.user_id) {
+    if (req.session.user_id && req.cookies.jwt) {
+      const token = req.cookies.jwt;
+      jwt.verify(token, "user-token", (error, decodedToken) => {
+        if (error) {
+          console.log(error.message);
+          return res.redirect("/login");
+        } else {
+          console.log(decodedToken);
+          
+        }
+      });
     } else {
-      res.redirect("/");
+    return  res.redirect("/login");
     }
     next();
   } catch (error) {
@@ -11,15 +22,20 @@ const isLogin = async (req, res, next) => {
 };
 const isLogout = async (req, res, next) => {
   try {
-    if (req.session.user_id) {
-      res.redirect("/home");
+    if (req.session.user_id && req.cookies.jwt) {
+      
+   return res.redirect("/home")
+    // next()
     }
     next();
   } catch (error) {
     console.log(error.message);
   }
 };
+
+
 module.exports = {
-    isLogin,
-    isLogout,
-}
+  isLogin,
+  isLogout,
+  
+};

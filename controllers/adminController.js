@@ -4,12 +4,21 @@ const randomstring = require("randomstring");
 const config = require("../config/config");
 const nodemailer = require("nodemailer");
 const excelJS = require("exceljs");
+const jwt = require("jsonwebtoken");
 
 // html to pdf require things
 const ejs = require("ejs");
 const pdf = require("html-pdf");
 const fs = require("fs");
 const path = require("path");
+
+
+// JWT Creator
+const createToken_admin = (id) => {
+  return jwt.sign({ id }, "admin-token", { expiresIn: 1 * 24 * 60 * 60 });
+};
+
+
 
 const securePassword = async (password) => {
   try {
@@ -119,6 +128,8 @@ const verifyLogin = async (req, res) => {
             message: "Email and password is incorrect",
           });
         } else {
+          const token_admin = createToken_admin(userData._id);
+          res.cookie("jwt_admin", token_admin, { httpOnly: true, maxAge: 1000 * 24 * 60 * 60 }).status(201)
           
           req.session.user = userData
           req.session.user_id = userData._id;
@@ -150,6 +161,8 @@ const loadDashboard = async (req, res) => {
 };
 const logout = async (req, res) => {
   try {
+    res.cookie("jwt_admin","",{maxAge:1})
+    
     req.session.destroy();
     return res.redirect("/admin");
   } catch (error) {
@@ -336,6 +349,7 @@ const updateUser = async (req, res) => {
           email: req.body.email,
           mobile: req.body.mno,
           is_verified: req.body.verify,
+          role : req.body.permission,
         },
       }
     );

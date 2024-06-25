@@ -75,20 +75,29 @@
           />
         </div>
 
-
         <div>
-          
-        <label>Verified</label>
-        <input type="radio" class="form-check-input" name="verify" value="1" <%if(user.is_verified ==
-        1){%>checked<%}%>/>
-        &nbsp&nbsp&nbsp
-        <label>Not Verified</label>
-        <input type="radio" class="form-check-input" name="verify" value="0" <%if(user.is_verified ==
-        0){%>checked<%}%> />
-        <br /><br />
+          <label>Verified</label>
+          <input type="radio" class="form-check-input" name="verify" value="1"
+          <%if(user.is_verified == 1){%> checked <%}%>/> &nbsp&nbsp&nbsp
+          <label>Not Verified</label>
+          <input type="radio" class="form-check-input" name="verify" value="0"
+          <%if(user.is_verified == 0){%> checked <%}%> />
+          <br /><br />
 
-        <input type="hidden" name="id" value="<%=user._id%>" />
-      </div>
+          <label>User</label>
+          <input type="radio" class="form-check-input" name="permission"
+          value="0" <%if(user.role == 0 ){%> checked <%}%>/> &nbsp&nbsp&nbsp
+          <label>Admin</label>
+          <input type="radio" class="form-check-input" name="permission"
+          value="1" <%if(user.role == 1){%> checked <%}%> />
+          <label>&nbsp&nbsp&nbsp&nbspEditor</label>
+          <input type="radio" class="form-check-input" name="permission"
+          value="2" <%if(user.role == 2 ){%> checked <%}%>/> &nbsp&nbsp&nbsp
+
+          <br /><br />
+
+          <input type="hidden" name="id" value="<%=user._id%>" />
+        </div>
       </form>
     </div>
   </div>

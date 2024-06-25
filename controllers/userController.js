@@ -6,6 +6,12 @@ const userModels = require("../models/userModels");
 const dotenv = require("dotenv").config();
 const config = require("../config/config");
 const { link } = require("../routes/userRoute");
+const jwt = require("jsonwebtoken");
+
+// JWT Creator
+const createToken = (id) => {
+  return jwt.sign({ id }, "user-token", { expiresIn: 1 * 24 * 60 * 60 });
+};
 
 const securePassword = async (password) => {
   try {
@@ -113,9 +119,15 @@ const insertUser = async (req, res) => {
       // spassword - secure passsword
     });
     const userData = await user.save();
+    const token = createToken(user._id);
+    
+    // res.cookie("jwt", token, { httpOnly: true, maxAge: 1000 * 24 * 60 * 60 });
+    // res.status(201).json({ user: user._id });
     if (userData) {
       sendVerifyMail(req.body.name, req.body.email, userData._id);
 
+    res.cookie("jwt", token, { httpOnly: true, maxAge: 1000 * 24 * 60 * 60 }).status(201)
+      
       return res.render("registration", {
         message: "Registration Successful, Please verify your mail",
       });
@@ -123,6 +135,16 @@ const insertUser = async (req, res) => {
       return res.render("registration", { message: "Registration Failed" });
     }
   } catch (error) {
+    if (error.code === 11000) {
+      return res.render("registration", {
+        message: "This Email already exists",
+      });
+    } else {
+      console.log(error.code);
+      console.log(error.message);
+    }
+
+    console.log(error.code);
     console.log(error.message);
   }
 };
@@ -170,9 +192,10 @@ const verifyLogin = async (req, res) => {
         if (userData.is_verified === 0) {
           return res.render("login", { message: "Please verify your mail" });
         } else {
-          req.session.user = userData
+          const token = createToken(userData._id);
+          res.cookie("jwt", token, { httpOnly: true, maxAge: 1000 * 24 * 60 * 60 }).status(201)
+          req.session.user = userData;
           req.session.user_id = userData._id;
-          console.log(req.body)
           return res.redirect("/home");
         }
       } else {
@@ -201,8 +224,9 @@ const loadHome = async (req, res) => {
 
 const userLogout = async (req, res) => {
   try {
+    res.cookie("jwt","",{maxAge:1})
     req.session.destroy();
-    return res.redirect("/");
+    return res.redirect("/login");
   } catch (error) {
     console.log(error.message);
   }
@@ -224,7 +248,7 @@ const forgetVerify = async (req, res) => {
     if (userData) {
       // userData.is_verified === 0 Tutorial.if 0 && 1 both verified and not veriifed can reset password
       if (userData.is_verified === 0 && 1) {
-      return res.render("forget", { message: "Please verify your mail." });
+        return res.render("forget", { message: "Please verify your mail." });
       } else {
         const randomstring = randomString.generate();
         const updatedData = await User.updateOne(
@@ -357,7 +381,7 @@ const personalInfoLoad = async (req, res) => {
     const id = req.query.id;
     const userData = await User.findById({ _id: id });
     if (userData) {
-   return   res.render("personal-info", { user: userData });
+      return res.render("personal-info", { user: userData });
     } else {
       return res.redirect("/home");
     }
